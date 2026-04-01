@@ -1,4 +1,7 @@
-FROM node:20-alpine AS base
+# 默认使用阿里云镜像，避免 CI（国内）拉取 docker.io 超时。
+# 本地或其它环境可覆盖：docker build --build-arg NODE_IMAGE=node:20-alpine ...
+ARG NODE_IMAGE=registry.cn-hangzhou.aliyuncs.com/library/node:20-alpine
+FROM ${NODE_IMAGE} AS base
 WORKDIR /app
 
 FROM base AS deps
@@ -18,7 +21,7 @@ RUN pnpm -C apps/web build
 WORKDIR /app/apps/api
 RUN pnpm db:generate && pnpm build && rm -rf public/web && mkdir -p public/web && cp -R ../web/dist/* public/web/
 
-FROM node:20-alpine AS runner
+FROM ${NODE_IMAGE} AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 RUN corepack enable

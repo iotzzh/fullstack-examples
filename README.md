@@ -37,6 +37,14 @@ pnpm db:migrate
 pnpm dev
 ```
 
+### Docker 构建（阿里云流水线 / 国内网络）
+
+根目录 `Dockerfile` 默认使用 **`registry.cn-hangzhou.aliyuncs.com/library/node:20-alpine`**，避免从 `docker.io` 拉取 `node` 镜像超时。若在可直连 Docker Hub 的环境构建，可显式指定：
+
+```bash
+docker build --build-arg NODE_IMAGE=node:20-alpine -t your-image:tag .
+```
+
 ## 文档
 
 - 架构说明见：`docs/architecture.md`
