@@ -1,0 +1,15 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    environment:
+      PORT: 3000
+      DATABASE_URL: "file:./data/dev.db"
+    volumes:
+      - api_data:/app/apps/api/data
+    ports:
+      - "3000:3000"
+
+volumes:
+  api_data:
